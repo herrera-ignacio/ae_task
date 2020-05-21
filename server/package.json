@@ -6,8 +6,8 @@
   "scripts": {
     "start": "env-cmd --file ./config/.env node src/index.js",
     "dev": "env-cmd --file ./config/.env nodemon src/index.js",
-    "lint": "eslint --ext .js ./src",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint --ext .js --fix ./src",
+    "test": "mocha ./src/**/*.test.js"
   },
   "keywords": [],
   "author": "",
@@ -19,9 +19,13 @@
     "sequelize": "^5.21.8"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "env-cmd": "^10.1.0",
     "eslint": "^7.0.0",
     "eslint-plugin-node": "^11.1.0",
-    "nodemon": "^2.0.3"
+    "mocha": "^7.2.0",
+    "nodemon": "^2.0.3",
+    "sinon": "^9.0.2"
   }
 }

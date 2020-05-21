@@ -1,8 +1,7 @@
-import { Map } from 'immutable' 
 import types from '../../actions/types/transactions'
+import { INITIAL_LOADER_STATE, INITIAL_TRANSACTIONS_STATE } from './constants'
 
-const INITIAL_LOADER_STATE = { loading: false, error: false }
-export const transactions_loader = (state = INITIAL_LOADER_STATE, action) => {
+export const transactionsLoader = (state = INITIAL_LOADER_STATE, action) => {
   switch(action.type)
   {
     case types.GET_TRANSACTIONS_REQUEST:
@@ -11,20 +10,31 @@ export const transactions_loader = (state = INITIAL_LOADER_STATE, action) => {
     }
     case types.GET_TRANSACTIONS_SUCCESS:
     {
+      return { loading: false, error: false }
+    }
+    case types.GET_TRANSACTIONS_ERROR:
+    {
       return { loading: false, error: true }
     }
     default: return state
   }
-} 
+}
 
-const INITIAL_TRANSACTIONS_STATE = Map();
+const addTransactionsToMap = (transactions, map) => {
+  transactions.forEach(t => map.set(t.id, t))
+  return map
+}
+
+const mergeTransactionsFromPayload = (newTransactions, prevTransactions) => {
+  return addTransactionsToMap(newTransactions, new Map(prevTransactions))
+}
+
 export const transactions = (state = INITIAL_TRANSACTIONS_STATE, action) => {
   switch(action.type)
   {
     case types.GET_TRANSACTIONS_SUCCESS:
     {
-      const allTransactions = Map(action.transactions.map(t => [t.id, t]))
-      return state.merge(allTransactions)
+      return mergeTransactionsFromPayload(action.transactions, state)
     }
     default: return state
   }

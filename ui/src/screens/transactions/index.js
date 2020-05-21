@@ -38,7 +38,7 @@ function Transactions({ transactions, loader, getTransactions }) {
 const mapStateToProps = state => {
   return {
     transactions: getTransactionsSelector(state),
-    loader: state.transactions_loader
+    loader: state.transactionsLoader
   }
 }
 
